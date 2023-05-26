@@ -10,8 +10,46 @@ A companion project for a blog post about integrating Kafka into a Rails project
   end
   ```
 
+## Setup
+
+Create and seed database:
+
+```
+bin/rails db:create
+bin/rails db:migrate
+bin/rails db:seed
+```
+
+Start Kafka broker and Zookeeper:
+
+```
+docker-compose up
+```
+
+Start the Kafka consumer(s) polling for messages:
+
+```
+bundle exec karafka server
+```
+
+Produce message(s) from a Rails console `bundle exec rails c`:
+
+```ruby
+message = {
+  greeting: "hello from the console"
+}.to_json
+Karafka.producer.produce_sync(topic: 'example', payload: message)
+```
+
 ## Product Model
 
 ```
 bin/rails generate model product name:string code:string price:decimal inventory:integer
 ```
+
+## TODO
+
+- fix `spec/factories/product.rb` wrt Faker methods
+- add tests for Product model
+- implement service to update product inventory given Kafka message payload, and tests
+- implement consumer and tests

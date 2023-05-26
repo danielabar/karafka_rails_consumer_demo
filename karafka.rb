@@ -2,6 +2,7 @@
 
 class KarafkaApp < Karafka::App
   setup do |config|
+    # In a real app, use environment variable to specify the bootstrap servers:
     config.kafka = { "bootstrap.servers": "127.0.0.1:9092" }
     config.client_id = "example_app"
     # Recreate consumers with each batch. This will allow Rails code reload to work in the
