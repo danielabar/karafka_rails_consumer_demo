@@ -10,8 +10,22 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Product, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject(:product) { FactoryBot.build(:product) }
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:code) }
+    it { is_expected.to validate_presence_of(:price) }
+    it { is_expected.to validate_presence_of(:inventory) }
+    it { is_expected.to validate_numericality_of(:inventory).is_greater_than_or_equal_to(0) }
+  end
+
+  describe "factory" do
+    it "has a valid factory" do
+      expect(product).to be_valid
+    end
+  end
 end

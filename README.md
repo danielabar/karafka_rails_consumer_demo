@@ -49,7 +49,24 @@ bin/rails generate model product name:string code:string price:decimal inventory
 
 ## TODO
 
-- fix `spec/factories/product.rb` wrt Faker methods
 - add tests for Product model
 - implement service to update product inventory given Kafka message payload, and tests
 - implement consumer and tests
+- add index on products table, code column
+
+### Update Error Handling
+
+```ruby
+begin
+  user = User.find(1)
+  user.update!(name: "John Doe")
+rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
+  # Handle validation errors and other save-related errors
+  error_message = "Record could not be saved: #{e.message}\n#{e.backtrace.join("\n")}"
+  Rails.logger.error error_message
+rescue => e
+  # Handle any other exceptions
+  error_message = "Error occurred: #{e.message}\n#{e.backtrace.join("\n")}"
+  Rails.logger.error error_message
+end
+```
