@@ -6,6 +6,7 @@ A companion project for a blog post about integrating Kafka into a Rails project
 * Investigate error handling including Karafka's declarative DLQ (dead letter queue) and subscribing to error events, eg:
   ```ruby
   Karafka.monitor.subscribe 'error.occurred' do |event|
+    # Or whatever error monitoring service Airbrake, Rollbar, etc.
     Sentry.capture_exception(event[:error])
   end
   ```
@@ -36,11 +37,13 @@ Produce message(s) from a Rails console `bundle exec rails c`:
 
 ```ruby
 # Valid
+Product.first.inventory
 message = {
   product_code: Product.first.code,
   inventory_count: 10
 }.to_json
 Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+Product.first.inventory
 
 # Invalid: Inventory count is negative
 message = {
@@ -70,7 +73,7 @@ bin/rails generate model product name:string code:string price:decimal inventory
 ## TODO
 
 - WIP: implement service to update product inventory given Kafka message payload, and tests
-- implement consumer and tests
+- WIP: implement consumer and tests
 - add index on products table, code column
 
 ### Update Error Handling
