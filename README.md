@@ -35,10 +35,30 @@ bundle exec karafka server
 Produce message(s) from a Rails console `bundle exec rails c`:
 
 ```ruby
+# Valid
 message = {
-  greeting: "hello from the console"
+  product_code: Product.first.code,
+  inventory_count: 10
 }.to_json
-Karafka.producer.produce_sync(topic: 'example', payload: message)
+Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+
+# Invalid: Inventory count is negative
+message = {
+  product_code: Product.first.code,
+  inventory_count: -1
+}.to_json
+Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+
+# Invalid: Product code does not exist
+message = {
+  product_code: "NO_SUCH_CODE",
+  inventory_count: 5
+}.to_json
+Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+
+# Invalid: String instead of JSON
+message = "this is no good"
+Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
 ```
 
 ## Product Model
@@ -49,8 +69,7 @@ bin/rails generate model product name:string code:string price:decimal inventory
 
 ## TODO
 
-- add tests for Product model
-- implement service to update product inventory given Kafka message payload, and tests
+- WIP: implement service to update product inventory given Kafka message payload, and tests
 - implement consumer and tests
 - add index on products table, code column
 
