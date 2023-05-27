@@ -1,8 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ProductInventory, type: :model do
-  subject(:product_inventory_form) { described_class.new }
-
+RSpec.describe ProductInventoryForm, type: :model do
   describe "validations" do
     it { should validate_presence_of(:product_code) }
     it { should validate_presence_of(:inventory_count) }
@@ -10,7 +8,7 @@ RSpec.describe ProductInventory, type: :model do
 
     context "custom validation" do
       let(:product) { create(:product) }
-      let(:product_inventory_form) { ProductInventory.new(product_code: product.code, inventory_count: 10) }
+      let(:product_inventory_form) { ProductInventoryForm.new(product_code: product.code, inventory_count: 10) }
 
       it "is valid when product exists" do
         expect(product_inventory_form).to be_valid

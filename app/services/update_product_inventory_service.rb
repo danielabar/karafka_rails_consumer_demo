@@ -7,7 +7,7 @@ class UpdateProductInventoryService
   end
 
   def process
-    product_inventory_form = ProductInventory.new(payload)
+    product_inventory_form = ProductInventoryForm.new(payload)
     if product_inventory_form.valid?
       update_product(product_inventory_form)
       true

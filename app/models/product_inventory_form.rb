@@ -1,4 +1,4 @@
-class ProductInventory
+class ProductInventoryForm
   include ActiveModel::Model
 
   attr_accessor :product_code, :inventory_count
