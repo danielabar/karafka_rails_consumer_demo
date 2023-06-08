@@ -40,9 +40,9 @@ Produce message(s) from a Rails console `bundle exec rails c`:
 Product.first.inventory
 message = {
   product_code: Product.first.code,
-  inventory_count: 10
+  inventory_count: 25
 }.to_json
-Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+Karafka.producer.produce_async(topic: 'inventory_management_product_updates', payload: message)
 Product.first.inventory
 
 # Invalid: Inventory count is negative
@@ -50,18 +50,20 @@ message = {
   product_code: Product.first.code,
   inventory_count: -1
 }.to_json
-Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+Karafka.producer.produce_async(topic: 'inventory_management_product_updates', payload: message)
 
 # Invalid: Product code does not exist
 message = {
   product_code: "NO_SUCH_CODE",
   inventory_count: 5
 }.to_json
-Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+Karafka.producer.produce_async(topic: 'inventory_management_product_updates', payload: message)
 
 # Invalid: String instead of JSON
 message = "this is no good"
-Karafka.producer.produce_async(topic: 'product_inventory', payload: message)
+Karafka.producer.produce_async(topic: 'inventory_management_product_updates', payload: message)
+
+# Take down database, then try to send a well structured message
 ```
 
 ## Product Model
