@@ -1,5 +1,29 @@
 # README
 
+```mermaid
+C4Context
+title Connecting Systems via Kafka
+Enterprise_Boundary(b0, "Legacy") {
+  System(IMS, "Inventory Management", $offsetX="1000000")
+}
+Boundary(kf, "Kafka") {
+  System(BROKER, "Broker")
+  System(ZOO, "Zookeeper")
+}
+Boundary(rails, "Rails") {
+  System(ECOM, "E-Commerce")
+}
+
+Rel(IMS, BROKER, "Produces<br />Messages")
+UpdateRelStyle(IMS, BROKER, $offsetX="-20", $offsetY="-19")
+Rel(ECOM, BROKER, "Consumes<br />Messages")
+UpdateRelStyle(ECOM, BROKER, $offsetX="-20", $offsetY="-19")
+BiRel(BROKER, ZOO, "Sync")
+UpdateRelStyle(BROKER, ZOO, $offsetX="-33")
+
+UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="3")
+```
+
 A companion project for a blog post about integrating Kafka into a Rails project using the Karafka gem. Topics to be covered include:
 * Have the consumer delegate to a service object to avoid mixing concerns of Kafka consumption with business logic.
 * Have the service delegate to an ActiveModel for validations to avoid high branch complexity in the service.
