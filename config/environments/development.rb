@@ -1,5 +1,6 @@
 require "active_support/core_ext/integer/time"
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -41,6 +42,11 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # https://stackify.com/rails-logger-and-rails-logging-best-practices/
+  config.logger = Logger.new($stdout)
+  config.logger.level = Logger::DEBUG
+  config.logger.datetime_format = "%Y-%m-%d %H:%M:%S"
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -68,3 +74,4 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 end
+# rubocop:enable Metrics/BlockLength
