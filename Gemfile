@@ -87,6 +87,9 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 
+  # https://karafka.io/docs/Testing/
+  gem "karafka-testing"
+
   gem 'rspec-rails'
   # https://github.com/thoughtbot/shoulda-matchers
   gem 'shoulda-matchers', require: false
