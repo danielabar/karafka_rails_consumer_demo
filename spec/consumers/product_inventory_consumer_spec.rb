@@ -45,6 +45,15 @@ RSpec.describe ProductInventoryConsumer do
     expect { consumer.consume }.to raise_error(JSON::ParserError, "unexpected token at 'not a json message'")
   end
 
+  it "raises exception on unexpected message attributes" do
+    message = {
+      greeting: "hello"
+    }
+
+    karafka.produce(message.to_json)
+    expect { consumer.consume }.to raise_error(ActiveModel::UnknownAttributeError, /unknown attribute 'greeting' for ProductInventoryForm/)
+  end
+
   it "raises exception when service raises" do
     message = {
       product_code: product.code,

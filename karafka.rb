@@ -23,11 +23,14 @@ class KarafkaApp < Karafka::App
     WaterDrop::Instrumentation::LoggerListener.new(Karafka.logger)
   )
 
+  # Common error handling
   Karafka.monitor.subscribe "error.occurred" do |event|
-    e = event[:error]
-    Rails.logger.error("ProductInventoryConsumer failed: #{e.message}\n#{e.backtrace.join("\n")}")
+    type = event[:type]
+    error = event[:error]
+    details = (error.backtrace || []).join("\n")
+    Rails.logger.error("An error: #{error} of type: #{type} occurred, details: #{details}")
     # Or whatever error monitoring service Airbrake, Rollbar, etc.
-    # Sentry.capture_exception(event[:error])
+    # Sentry.capture_exception(error)
   end
 
   routes.draw do

@@ -87,6 +87,10 @@ Karafka.producer.produce_async(topic: 'inventory_management_product_updates', pa
 message = "this is no good"
 Karafka.producer.produce_async(topic: 'inventory_management_product_updates', payload: message)
 
+# Invalid: Unexpected attributes in JSON
+message = { greeting: "hello" }.to_json
+Karafka.producer.produce_async(topic: 'inventory_management_product_updates', payload: message)
+
 # Take down database, then try to send a well structured message
 ```
 
