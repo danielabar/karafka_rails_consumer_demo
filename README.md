@@ -37,12 +37,11 @@ A companion project for a blog post about integrating Kafka into a Rails project
 
 ## Setup
 
-Create and seed database:
+Create and populate database:
 
 ```
 bin/rails db:create
-bin/rails db:migrate
-bin/rails db:seed
+bin/rails db:reset
 ```
 
 Start Kafka broker and Zookeeper:
@@ -94,8 +93,8 @@ Karafka.producer.produce_async(topic: 'inventory_management_product_updates', pa
 # Take down database, then try to send a well structured message
 ```
 
-## Product Model
+## Run Automated Tests
 
 ```
-bin/rails generate model product name:string code:string price:decimal inventory:integer
+bundle exec rspec
 ```
