@@ -22,7 +22,7 @@ RSpec.describe ProductInventoryConsumer do
   it "logs error and produces to DLQ when given message with invalid product code" do
     expect(Karafka.logger).to receive(:info).with(/Sync producing of a message/)
     expect(Rails.logger).to receive(:info).with(/ProductInventoryConsumer consuming Topic: inventory_management_product_updates/)
-    expect(Rails.logger).to receive(:error).with(/ProductInventoryConsumer message invalid: Product code NOSUCHCODE does not exist/)
+    expect(Rails.logger).to receive(:error).with(/ProductInventoryConsumer message invalid.+Product code NOSUCHCODE does not exist/)
     expect(Karafka.logger).to receive(:info).with(/Async producing of a message to 'dlq_inventory_management_product_updates'/)
     expect(Karafka.logger).to receive(:info).with(/Dispatched message/)
 

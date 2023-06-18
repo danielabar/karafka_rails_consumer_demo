@@ -7,10 +7,14 @@ class ProductInventoryConsumer < ApplicationConsumer
         Offset: #{message.offset}"
       )
       service = UpdateProductInventoryService.new(message.payload)
-      unless service.process
-        Rails.logger.error("ProductInventoryConsumer message invalid: #{service.errors.join(', ')}")
-        dispatch_to_dlq(message)
-      end
+      handle_service_errors(message, service.errors) unless service.process
     end
+  end
+
+  private
+
+  def handle_service_errors(message, errors)
+    Rails.logger.error("ProductInventoryConsumer message invalid: #{message.payload}, #{errors.join(', ')}")
+    dispatch_to_dlq(message)
   end
 end
