@@ -24,7 +24,7 @@ UpdateRelStyle(BROKER, ZOO, $offsetX="-33")
 UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="3")
 ```
 
-A companion project for a [blog post](http://localhost:8000/blog/rails-kafka-consumer/) about integrating Kafka into a Rails project using the Karafka gem. Topics to be covered include:
+A companion project for a [blog post](https://danielabaron.me/blog/rails-kafka-consumer/) about integrating Kafka into a Rails project using the Karafka gem. Topics to be covered include:
 * Have the consumer delegate to a service object to avoid mixing concerns of Kafka consumption with business logic.
 * Have the service delegate to an ActiveModel for validations to avoid high branch complexity in the service.
 * Error handling including Karafka's declarative DLQ (dead letter queue) and subscribing to error events, eg:
